@@ -1,12 +1,13 @@
 import FetchRewardsType from "../model/fetchRewards";
 
-const FETCH_REWARDS_ENDPOINT = "https://frontend-take-home.fetchrewards.com/form";
+const FETCH_REWARDS_ENDPOINT =
+  "https://frontend-take-home.fetchrewards.com/form";
 
-const get = (): Promise<FetchRewardsType> => {
+const getDataForForm = (): Promise<FetchRewardsType> => {
   const requestInfo = {
     method: "GET",
     headers: {
-      Accept: "application/json"
+      Accept: "application/json",
     },
   };
 
@@ -18,25 +19,25 @@ const get = (): Promise<FetchRewardsType> => {
   });
 };
 
-const post = (
-  name: string, 
-  email: string, 
-  password: string, 
-  occupation: string, 
+const submitUserData = (
+  name: string,
+  email: string,
+  password: string,
+  occupation: string,
   state: string
 ): Promise<void> => {
   const requestInfo = {
     method: "POST",
     headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       name: name,
       email: email,
       password: password,
       occupation: occupation,
-      state: state
+      state: state,
     }),
   };
 
@@ -46,6 +47,11 @@ const post = (
       resolve();
     }, reject);
   });
-}
+};
 
-export default { get, post };
+const FetchRewards = {
+  getDataForForm,
+  submitUserData,
+};
+
+export default FetchRewards;

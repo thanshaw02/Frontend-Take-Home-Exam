@@ -6,7 +6,7 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import { State } from "../model/fetchRewards"
+import { State } from "../model/fetchRewards";
 
 type CommongSelectComponentProps = {
   label: string;
@@ -19,7 +19,6 @@ const CommonSelectComponent: FC<CommongSelectComponentProps> = ({
   selectOptions,
   onValueChange,
 }) => {
-
   const [selectedValue, setSelectedValue] = useState<string>("");
 
   const handleOnChange = (event: SelectChangeEvent<string>) => {
@@ -40,10 +39,8 @@ const CommonSelectComponent: FC<CommongSelectComponentProps> = ({
       >
         {selectOptions?.map((option) => {
           // ended up not using the state abbreviation attribute
-          const value = typeof option !== "string" ? option.name : option; 
-          return (
-            <MenuItem value={value}>{value}</MenuItem>
-          );
+          const value = typeof option !== "string" ? option.name : option;
+          return <MenuItem value={value}>{value}</MenuItem>;
         })}
       </Select>
     </FormControl>

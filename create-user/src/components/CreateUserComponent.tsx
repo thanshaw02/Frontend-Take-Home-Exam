@@ -1,13 +1,21 @@
 import { FC, useEffect, useState } from "react";
-import { Alert, Box, Button, CircularProgress, Grid, Paper, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import CommonSelectComponent from "./CommonSelectComponent";
 import FetchRewards from "../api/fetchRewards";
 import FetchRewardsType from "../model/fetchRewards";
 
-// I'd really liek to reduce the number of states I have in this component
+// I'd really like to reduce the number of states I have in this component
 
 const CreateUserComponent: FC<unknown> = () => {
-
   // states keeping track of user submitted data
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -15,7 +23,7 @@ const CreateUserComponent: FC<unknown> = () => {
   const [password, setPassword] = useState<string>("");
   const [occupation, setOccupation] = useState<string>("");
   const [state, setState] = useState<string>("");
-  
+
   // state keeping track of response from fetch rewards api
   const [fetchRewardsData, setFetchRewardsData] = useState<FetchRewardsType>();
 
@@ -25,7 +33,7 @@ const CreateUserComponent: FC<unknown> = () => {
 
   useEffect(() => {
     setIsLoaded(false);
-    FetchRewards.get().then(
+    FetchRewards.getDataForForm().then(
       (fetchRewardData) => {
         // success
         setFetchRewardsData(fetchRewardData);
@@ -90,7 +98,7 @@ const CreateUserComponent: FC<unknown> = () => {
     setIsLoaded(false);
 
     // possibly change this from passing a custom type to jst passing all of the attributes individually
-    FetchRewards.post(
+    FetchRewards.submitUserData(
       `${firstName} ${lastName}`,
       email,
       password,
@@ -123,117 +131,103 @@ const CreateUserComponent: FC<unknown> = () => {
     >
       <Paper elevation={9} sx={{ padding: 2 }}>
         {isLoaded ? (
-        <Grid
-          justifyContent="center"
-          alignItems="center"
-          maxWidth="xs"
-        >
-          <Grid item xs={12}>
-            <Typography component="h1" variant="h4">
-              Create User
-            </Typography>
-          </Grid>
-          {error && (
-            <Grid xs={12} sx={{ mt: 2 }}>
-              <Alert severity="error">
-                {error}
-              </Alert>
+          <Grid justifyContent="center" alignItems="center" maxWidth="xs">
+            <Grid item xs={12}>
+              <Typography component="h1" variant="h4">
+                Create User
+              </Typography>
             </Grid>
-          )}
-          {success && (
+            {error && (
+              <Grid xs={12} sx={{ mt: 2 }}>
+                <Alert severity="error">{error}</Alert>
+              </Grid>
+            )}
+            {success && (
+              <Grid item xs={12} sx={{ mt: 2 }}>
+                <Alert severity="success">{success}</Alert>
+              </Grid>
+            )}
+            <Grid item xs={12}>
+              <TextField
+                required
+                size="medium"
+                variant="outlined"
+                label="First Name"
+                value={firstName}
+                onChange={(event) => setFirstName(event.target.value)}
+                sx={{ mt: 4, mr: 2 }}
+              />
+              <TextField
+                required
+                size="medium"
+                variant="outlined"
+                label="Last Name"
+                value={lastName}
+                onChange={(event) => setLastName(event.target.value)}
+                sx={{ mt: 4 }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                size="medium"
+                variant="outlined"
+                label="Email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                sx={{ mt: 2 }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                type="password"
+                size="medium"
+                variant="outlined"
+                label="Password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                sx={{ mt: 2 }}
+              />
+            </Grid>
             <Grid item xs={12} sx={{ mt: 2 }}>
-              <Alert severity="success">
-                {success}
-              </Alert>
+              <CommonSelectComponent
+                label="Occupation"
+                selectOptions={fetchRewardsData?.occupations}
+                onValueChange={(occupation: string) => {
+                  console.log(
+                    `Occuptation option has been selected: ${occupation}`
+                  );
+                  setOccupation(occupation);
+                }}
+              />
             </Grid>
-          )}
-          <Grid item xs={12}>
-            <TextField
-              required
-              size="medium"
-              variant="outlined"
-              label="First Name"
-              value={firstName}
-              onChange={(event) => setFirstName(event.target.value)}
-              sx={{ mt: 4, mr: 2 }}
-            />
-            <TextField
-              required
-              size="medium"
-              variant="outlined"
-              label="Last Name"
-              value={lastName}
-              onChange={(event) => setLastName(event.target.value)}
-              sx={{ mt: 4 }}
-            />
+            <Grid item xs={12} sx={{ mt: 2 }}>
+              <CommonSelectComponent
+                label="State"
+                selectOptions={fetchRewardsData?.states}
+                onValueChange={(state: string) => {
+                  console.log(`State option has been selected: ${state}`);
+                  setState(state);
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                fullWidth
+                onClick={handleOnSubmit}
+                variant="outlined"
+                size="large"
+                sx={{
+                  mt: 4,
+                }}
+              >
+                Submit
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              size="medium"
-              variant="outlined"
-              label="Email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              sx={{ mt: 2 }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              type="password"
-              size="medium"
-              variant="outlined"
-              label="Password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              sx={{ mt: 2 }}
-            />
-          </Grid>
-          <Grid 
-            item 
-            xs={12} 
-            sx={{ mt: 2 }}
-          >
-            <CommonSelectComponent
-              label="Occupation"
-              selectOptions={fetchRewardsData?.occupations}
-              onValueChange={(occupation: string) => {
-                console.log(`Occuptation option has been selected: ${occupation}`);
-                setOccupation(occupation);
-              }}
-            />
-          </Grid>
-          <Grid 
-            item 
-            xs={12} 
-            sx={{ mt: 2 }}
-          >
-            <CommonSelectComponent
-              label="State"
-              selectOptions={fetchRewardsData?.states}
-              onValueChange={(state: string) => {
-                console.log(`State option has been selected: ${state}`);
-                setState(state);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              fullWidth
-              onClick={handleOnSubmit}
-              variant="outlined"
-              size="large"
-              sx={{
-                mt: 4
-              }}
-            >
-              Submit
-            </Button>
-          </Grid>
-        </Grid>
         ) : (
           // need to change the sizing of this
           <CircularProgress />
