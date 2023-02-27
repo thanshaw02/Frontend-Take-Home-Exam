@@ -17,6 +17,7 @@ import CreateUserFooterComponent from "./CreateUserFooterComponent";
 /**
  * Notes:
  *  - Instead of making each field "required" I opted for a more customized error/success handling
+ *  - All fields are still required but are not handled by the form itself, instead I handle it on submit
  */
 
 const CreateUserComponent: FC<unknown> = () => {
