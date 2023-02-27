@@ -116,28 +116,27 @@ const CreateUserComponent: FC<unknown> = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        mt: { md: 18 }
+        mt: { md: 18 },
       }}
     >
       {/* form body */}
       <Paper elevation={9} sx={{ padding: 4 }}>
         {isLoaded ? (
           <Grid justifyContent="center" alignItems="center">
-
             {/* title form element */}
             <Grid item xs={12}>
-              <Typography 
-                component="h1" 
+              <Typography
+                component="h1"
                 variant="h4"
                 sx={{
                   display: "flex",
-                  justifyContent: "center"
+                  justifyContent: "center",
                 }}
               >
                 Register
               </Typography>
             </Grid>
-            
+
             {/* error snackbar */}
             {error && (
               <Grid item xs={12} sx={{ mt: 2 }}>
@@ -146,7 +145,7 @@ const CreateUserComponent: FC<unknown> = () => {
                   sx={{
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center"
+                    justifyContent: "center",
                   }}
                 >
                   {error}
@@ -157,12 +156,12 @@ const CreateUserComponent: FC<unknown> = () => {
             {/* success snackbar */}
             {success && (
               <Grid item xs={12} sx={{ mt: 2 }}>
-                <Alert 
+                <Alert
                   severity="success"
                   sx={{
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center"
+                    justifyContent: "center",
                   }}
                 >
                   {success}
@@ -234,12 +233,12 @@ const CreateUserComponent: FC<unknown> = () => {
                 fullWidth
                 type="submit"
                 variant="contained"
-                sx={{  py: 1 }}
+                sx={{ py: 1 }}
               >
                 Submit
               </Button>
             </Grid>
-            
+
             {/* footer */}
             <Grid item xs={12} sx={{ mt: 5 }}>
               <CreateUserFooterComponent bodyText="Created by: Tylor Hanshaw" />

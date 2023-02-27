@@ -38,14 +38,21 @@ const CommonSelectComponent: FC<CommongSelectComponentProps> = ({
         value={selectedValue}
         onChange={handleOnChange}
         renderValue={(selectedItem) => (
-          <Box sx={{ display: 'flex' }}>
+          <Box sx={{ display: "flex" }}>
             <Chip key={selectedItem} label={selectedItem} />
           </Box>
         )}
       >
         {selectOptions?.map((option) => {
-          const value = typeof option !== "string" ? `${option.name}, ${option.abbreviation}` : option;
-          return <MenuItem key={value} value={value}>{value}</MenuItem>;
+          const value =
+            typeof option !== "string"
+              ? `${option.name}, ${option.abbreviation}`
+              : option;
+          return (
+            <MenuItem key={value} value={value}>
+              {value}
+            </MenuItem>
+          );
         })}
       </Select>
     </FormControl>

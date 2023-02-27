@@ -12,13 +12,13 @@ type CreateUserFooterComponentProps = {
 
 const CreateUserFooterComponent: FC<CreateUserFooterComponentProps> = ({
   bodyText,
-  justifyContent
+  justifyContent,
 }) => {
   return (
     <Box
       sx={{
         display: "flex",
-        justifyContent: justifyContent ?? "left"
+        justifyContent: justifyContent ?? "left",
       }}
     >
       <Typography variant="caption" sx={{ opacity: 0.75, color: grey[600] }}>
