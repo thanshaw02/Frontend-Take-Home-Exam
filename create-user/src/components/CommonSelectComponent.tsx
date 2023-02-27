@@ -4,7 +4,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  SelectChangeEvent
+  SelectChangeEvent,
 } from "@mui/material";
 
 type CommongSelectComponentProps = {
@@ -16,12 +16,15 @@ type CommongSelectComponentProps = {
 const CommonSelectComponent: FC<CommongSelectComponentProps> = ({
   label,
   selectOptions,
-  onValueChange
+  onValueChange,
 }) => {
   const [selectedValue, setSelectedValue] = useState<string>("");
 
   const handleOnChange = (event: SelectChangeEvent<string>) => {
     // empty logic for now
+    const selectValue = event.target.value;
+
+    setSelectedValue(selectValue);
   };
 
   return (
@@ -35,9 +38,7 @@ const CommonSelectComponent: FC<CommongSelectComponentProps> = ({
         onChange={handleOnChange}
       >
         {selectOptions.map((option) => (
-          <MenuItem value={option}>
-            {option}
-          </MenuItem>
+          <MenuItem value={option}>{option}</MenuItem>
         ))}
       </Select>
     </FormControl>

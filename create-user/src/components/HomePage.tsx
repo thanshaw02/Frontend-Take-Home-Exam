@@ -6,10 +6,7 @@ type HomePagePropsType = {
 };
 
 const HomePage: FC<HomePagePropsType> = (props) => {
-  
-  return (
-    <CreateUserComponent />
-  );
+  return <CreateUserComponent />;
 };
 
 export default HomePage;

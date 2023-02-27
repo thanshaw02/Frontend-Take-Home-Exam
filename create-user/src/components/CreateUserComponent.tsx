@@ -1,11 +1,5 @@
 import { FC } from "react";
-import {
-  Box,
-  Grid,
-  Paper,
-  TextField,
-  Typography
-} from "@mui/material";
+import { Box, Grid, Paper, TextField, Typography } from "@mui/material";
 import CommonSelectComponent from "./CommonSelectComponent";
 
 /**
@@ -23,7 +17,7 @@ import CommonSelectComponent from "./CommonSelectComponent";
  *        "name": "STATE_FULL_NAME",
  *        "abbreviation": "STATE_ABBREVIATION"
  *      }
- * 
+ *
  * What needs to happen:
  *  - All of the above fields will be in a form and sent via a POST request to the "https://frontend-take-home.fetchrewards.com/form" endpoint
  *  - POST request body will look like this:
@@ -42,20 +36,16 @@ type CreateUserComponentProps = {
 };
 
 const CreateUserComponent: FC<CreateUserComponentProps> = (props) => {
-
   return (
-    <Box 
-      sx={{ 
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        mt: { xs: 3, md: 18 }
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        mt: { xs: 3, md: 18 },
       }}
     >
-      <Paper 
-        elevation={9}
-        sx={{ padding: 2 }}
-      >
+      <Paper elevation={9} sx={{ padding: 2 }}>
         <Box component="form">
           <Grid
             direction="row"
