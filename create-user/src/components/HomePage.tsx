@@ -1,11 +1,7 @@
 import { FC } from "react";
 import CreateUserComponent from "./CreateUserComponent";
 
-type HomePagePropsType = {
-  // empty props for now
-};
-
-const HomePage: FC<HomePagePropsType> = (props) => {
+const HomePage: FC<unknown> = () => {
   return <CreateUserComponent />;
 };
 
