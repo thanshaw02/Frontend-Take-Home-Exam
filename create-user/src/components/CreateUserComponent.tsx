@@ -173,7 +173,6 @@ const CreateUserComponent: FC<unknown> = () => {
             {/* first/last name text elements */}
             <Grid item xs={12} sx={{ mt: 4 }}>
               <TextField
-                // required
                 size="medium"
                 variant="outlined"
                 label="First Name"
@@ -181,7 +180,6 @@ const CreateUserComponent: FC<unknown> = () => {
                 sx={{ mr: 2 }}
               />
               <TextField
-                // required
                 size="medium"
                 variant="outlined"
                 label="Last Name"
@@ -192,7 +190,6 @@ const CreateUserComponent: FC<unknown> = () => {
             {/* email/password text elements */}
             <Grid item xs={12} sx={{ mt: 2 }}>
               <TextField
-                // required
                 type="email"
                 size="medium"
                 variant="outlined"
@@ -201,7 +198,6 @@ const CreateUserComponent: FC<unknown> = () => {
                 sx={{ mr: 2 }}
               />
               <TextField
-                // required
                 type="password"
                 size="medium"
                 variant="outlined"
