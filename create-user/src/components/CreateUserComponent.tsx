@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import CommonSelectComponent from "./CommonSelectComponent";
 import FetchRewards from "../api/fetchRewards";
-import FetchRewardsType from "../model/fetchRewards";
+import FetchRewardsType, { User } from "../model/fetchRewards";
 import CreateUserFooterComponent from "./CreateUserFooterComponent";
 
 /**
@@ -87,14 +87,16 @@ const CreateUserComponent: FC<unknown> = () => {
       return;
     }
 
+    const newUser: User = {
+      name: `${firstName.toString()} ${lastName.toString()}`,
+      email: email.toString(),
+      password: password.toString(),
+      occupation: occupation.toString(),
+      state: state.toString(),
+    };
+
     setIsLoaded(false);
-    FetchRewards.submitUserData(
-      `${firstName.toString()} ${lastName.toString()}`,
-      email.toString(),
-      password.toString(),
-      occupation.toString(),
-      state.toString()
-    ).then(
+    FetchRewards.submitUserData(newUser).then(
       () => {
         // success
         setSuccess("You have successfully submitted the form!");
