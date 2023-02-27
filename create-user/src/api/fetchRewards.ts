@@ -13,7 +13,7 @@ const getDataForForm = (): Promise<FetchRewardsType> => {
 
   return new Promise((resolve, reject) => {
     fetch(FETCH_REWARDS_ENDPOINT, requestInfo).then((response) => {
-      if (!response.ok) reject(response.statusText);
+      if (!response.ok) reject(response.status);
       resolve(response.json());
     }, reject);
   });
