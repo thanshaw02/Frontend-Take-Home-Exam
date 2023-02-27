@@ -12,21 +12,16 @@ import {
 import CommonSelectComponent from "./CommonSelectComponent";
 import FetchRewards from "../api/fetchRewards";
 import FetchRewardsType from "../model/fetchRewards";
+import CreateUserFooterComponent from "./CreateUserFooterComponent";
 
-// I'd really like to reduce the number of states I have in this component
+/**
+ * Notes:
+ *  - Instead of making each field "required" I opted for a more customized error/success handling
+ */
 
 const CreateUserComponent: FC<unknown> = () => {
-  // states keeping track of user submitted data
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [occupation, setOccupation] = useState<string>("");
-  const [state, setState] = useState<string>("");
-
   // state keeping track of response from fetch rewards api
   const [fetchRewardsData, setFetchRewardsData] = useState<FetchRewardsType>();
-
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const [success, setSuccess] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -48,188 +43,209 @@ const CreateUserComponent: FC<unknown> = () => {
     );
   }, []);
 
-  const clearFormData = () => {
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setPassword("");
-
-    // these two may cause issues
-    setOccupation("");
-    setState("");
-  };
-
-  // I'm not a huge fan of this method, would be nice to have a method that maps the correct error message out
-  // I could have gone with a form, but I wanted a more customized error message
-  const handleOnSubmit = () => {
+  const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setSuccess("");
     setError("");
 
+    const formData = new FormData(event.currentTarget);
+
+    const firstName = formData.get("first-name");
     if (!firstName) {
       setError("Please enter a first name");
       return;
     }
 
+    const lastName = formData.get("last-name");
     if (!lastName) {
       setError("Please enter a last name");
       return;
     }
 
+    const email = formData.get("email");
     if (!email) {
       setError("Please enter an email address");
       return;
     }
 
+    const password = formData.get("password");
     if (!password) {
       setError("Please enter a password");
       return;
     }
 
+    const occupation = formData.get("occupation");
     if (!occupation) {
       setError("Please select an occupation");
       return;
     }
 
+    const state = formData.get("state");
     if (!state) {
       setError("Please select a state");
       return;
     }
 
     setIsLoaded(false);
-
-    // possibly change this from passing a custom type to jst passing all of the attributes individually
     FetchRewards.submitUserData(
-      `${firstName} ${lastName}`,
-      email,
-      password,
-      occupation,
-      state
+      `${firstName.toString()} ${lastName.toString()}`,
+      email.toString(),
+      password.toString(),
+      occupation.toString(),
+      state.toString()
     ).then(
       () => {
         // success
-        clearFormData();
         setSuccess("You have successfully submitted the form!");
         setIsLoaded(true);
       },
       (err) => {
         // error
-        setIsLoaded(true);
-        setError("Failed to submit the form");
         console.error(`Error posting form data -- ${err}`);
+        setError("Failed to submit the form");
+        setIsLoaded(true);
       }
     );
   };
 
   return (
     <Box
+      component="form"
+      onSubmit={handleOnSubmit}
       sx={{
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        mt: { xs: 3, md: 18 },
+        mt: { md: 18 }
       }}
     >
-      <Paper elevation={9} sx={{ padding: 2 }}>
+      {/* form body */}
+      <Paper elevation={9} sx={{ padding: 4 }}>
         {isLoaded ? (
-          <Grid justifyContent="center" alignItems="center" maxWidth="xs">
+          <Grid justifyContent="center" alignItems="center">
+
+            {/* title form element */}
             <Grid item xs={12}>
-              <Typography component="h1" variant="h4">
-                Create User
+              <Typography 
+                component="h1" 
+                variant="h4"
+                sx={{
+                  display: "flex",
+                  justifyContent: "center"
+                }}
+              >
+                Register
               </Typography>
             </Grid>
+            
+            {/* error snackbar */}
             {error && (
-              <Grid xs={12} sx={{ mt: 2 }}>
-                <Alert severity="error">{error}</Alert>
+              <Grid item xs={12} sx={{ mt: 2 }}>
+                <Alert
+                  severity="error"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  {error}
+                </Alert>
               </Grid>
             )}
+
+            {/* success snackbar */}
             {success && (
               <Grid item xs={12} sx={{ mt: 2 }}>
-                <Alert severity="success">{success}</Alert>
+                <Alert 
+                  severity="success"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  {success}
+                </Alert>
               </Grid>
             )}
-            <Grid item xs={12}>
+
+            {/* first/last name text elements */}
+            <Grid item xs={12} sx={{ mt: 4 }}>
               <TextField
-                required
+                // required
                 size="medium"
                 variant="outlined"
                 label="First Name"
-                value={firstName}
-                onChange={(event) => setFirstName(event.target.value)}
-                sx={{ mt: 4, mr: 2 }}
+                name="first-name"
+                sx={{ mr: 2 }}
               />
               <TextField
-                required
+                // required
                 size="medium"
                 variant="outlined"
                 label="Last Name"
-                value={lastName}
-                onChange={(event) => setLastName(event.target.value)}
-                sx={{ mt: 4 }}
+                name="last-name"
               />
             </Grid>
-            <Grid item xs={12}>
+
+            {/* email/password text elements */}
+            <Grid item xs={12} sx={{ mt: 2 }}>
               <TextField
-                required
-                fullWidth
+                // required
+                type="email"
                 size="medium"
                 variant="outlined"
                 label="Email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                sx={{ mt: 2 }}
+                name="email"
+                sx={{ mr: 2 }}
               />
-            </Grid>
-            <Grid item xs={12}>
               <TextField
-                required
-                fullWidth
+                // required
                 type="password"
                 size="medium"
                 variant="outlined"
                 label="Password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                sx={{ mt: 2 }}
+                name="password"
               />
             </Grid>
+
+            {/* occupation select element */}
             <Grid item xs={12} sx={{ mt: 2 }}>
               <CommonSelectComponent
                 label="Occupation"
+                name="occupation"
                 selectOptions={fetchRewardsData?.occupations}
-                onValueChange={(occupation: string) => {
-                  console.log(
-                    `Occuptation option has been selected: ${occupation}`
-                  );
-                  setOccupation(occupation);
-                }}
               />
             </Grid>
+
+            {/* state select element */}
             <Grid item xs={12} sx={{ mt: 2 }}>
               <CommonSelectComponent
                 label="State"
+                name="state"
                 selectOptions={fetchRewardsData?.states}
-                onValueChange={(state: string) => {
-                  console.log(`State option has been selected: ${state}`);
-                  setState(state);
-                }}
               />
             </Grid>
-            <Grid item xs={12}>
+
+            {/* submit button */}
+            <Grid item xs={12} sx={{ mt: 2 }}>
               <Button
                 fullWidth
-                onClick={handleOnSubmit}
-                variant="outlined"
-                size="large"
-                sx={{
-                  mt: 4,
-                }}
+                type="submit"
+                variant="contained"
+                sx={{  py: 1 }}
               >
                 Submit
               </Button>
             </Grid>
+            
+            {/* footer */}
+            <Grid item xs={12} sx={{ mt: 5 }}>
+              <CreateUserFooterComponent bodyText="Created by: Tylor Hanshaw" />
+            </Grid>
           </Grid>
         ) : (
-          // need to change the sizing of this
           <CircularProgress />
         )}
       </Paper>

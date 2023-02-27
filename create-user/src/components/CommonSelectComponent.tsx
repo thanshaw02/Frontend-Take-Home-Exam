@@ -1,5 +1,7 @@
 import { FC, useState } from "react";
 import {
+  Box,
+  Chip,
   FormControl,
   InputLabel,
   MenuItem,
@@ -10,21 +12,20 @@ import { State } from "../model/fetchRewards";
 
 type CommongSelectComponentProps = {
   label: string;
+  name: string;
   selectOptions?: Array<string | State>;
-  onValueChange: (selectedValue: string) => void;
 };
 
 const CommonSelectComponent: FC<CommongSelectComponentProps> = ({
   label,
+  name,
   selectOptions,
-  onValueChange,
 }) => {
   const [selectedValue, setSelectedValue] = useState<string>("");
 
   const handleOnChange = (event: SelectChangeEvent<string>) => {
     const selectValue = event.target.value;
     setSelectedValue(selectValue);
-    onValueChange(selectValue);
   };
 
   return (
@@ -32,15 +33,19 @@ const CommonSelectComponent: FC<CommongSelectComponentProps> = ({
       <InputLabel>{label}</InputLabel>
       <Select
         size="medium"
-        id={label}
+        name={name}
         label={label}
         value={selectedValue}
         onChange={handleOnChange}
+        renderValue={(selectedItem) => (
+          <Box sx={{ display: 'flex' }}>
+            <Chip key={selectedItem} label={selectedItem} />
+          </Box>
+        )}
       >
         {selectOptions?.map((option) => {
-          // ended up not using the state abbreviation attribute
-          const value = typeof option !== "string" ? option.name : option;
-          return <MenuItem value={value}>{value}</MenuItem>;
+          const value = typeof option !== "string" ? `${option.name}, ${option.abbreviation}` : option;
+          return <MenuItem key={value} value={value}>{value}</MenuItem>;
         })}
       </Select>
     </FormControl>
