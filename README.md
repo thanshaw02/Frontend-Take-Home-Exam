@@ -22,7 +22,7 @@ I'd also like to spruce up the UI/UX a bit, make it look a bit prettier and add 
 design avenues I was originally going down but I opted for a more simple design and focused on the UX and file structure/cleanliness of the codebase.
 
 # Final Thoughts
-I really enjoy writing code and spending time refactoring it and seeing what really works or is easier to read, in this situation I'd tried to keep in mind 
+I really enjoy writing code and spending time refactoring it and seeing what really works or is easier to read, in this situation I had tried to keep in mind 
 reusability and maintainability. Building components that can be reused no matter the context is really important, I think it cuts down on duplicate/redundant code
 but also makes your code easier to read and maintain.
 
