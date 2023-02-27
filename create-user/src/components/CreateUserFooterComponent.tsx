@@ -7,7 +7,7 @@ import { Typography } from "@mui/material";
 
 type CreateUserFooterComponentProps = {
   bodyText: string;
-  justifyContent?: string;
+  justifyContent?: string; // optional, if not given then defaults to "left"
 };
 
 const CreateUserFooterComponent: FC<CreateUserFooterComponentProps> = ({
