@@ -3,8 +3,9 @@ This repository contains source code written as a take-home exam for _Fetch Rewa
 
 ## How to run Create-User
 1. Clone this repository to your local machine
-2. From within the `create-user` directory run the `yarn start` command to spin the front-end up
-3. Navigate to `localhost:3000` to view the main page
+2. From within the `create-user` directory run `yarn install`
+3. From within the `create-user` directory run the `yarn start` command to spin the front-end up
+4. Navigate to `localhost:3000` to view the main page
 
 You may enter some data in one or more of the fields in the form you see, play around with how data is handled and how error/success messages are given to the user.
 
