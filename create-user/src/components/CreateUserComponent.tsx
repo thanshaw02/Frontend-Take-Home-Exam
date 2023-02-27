@@ -92,7 +92,7 @@ const CreateUserComponent: FC<unknown> = () => {
       email: email.toString(),
       password: password.toString(),
       occupation: occupation.toString(),
-      state: state.toString()
+      state: state.toString(),
     };
 
     setIsLoaded(false);
